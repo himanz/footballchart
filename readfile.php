@@ -16,6 +16,44 @@
       $this->seasonAverage = round($totalPoints / $seasons);
   	}
 
+    public function turnArrayToHash($array) {
+      $clubArray = array();
+
+      $arrayCounter = 0;
+      foreach ($array as $each) {
+        switch ($arrayCounter):
+          case 1:
+            $clubArray["totalSeasons"] = $each;
+            break;
+          case 2:
+            $clubArray["totalGames"] = $each;
+            break;
+          case 3:
+            $clubArray["totalWins"] = $each;
+            break;
+          case 4:
+            $clubArray["totalDraws"] = $each;
+            break;
+          case 5:
+            $clubArray["totalLoses"] = $each;
+            break;
+          case 6:
+            $clubArray["totalGoals"] = $each;
+            break;
+          case 7:
+            $clubArray["totalGoalsConceded"] = $each;
+            break;
+          case 8;
+            $clubArray["totalPoints"] = $each;
+            break;  
+          default:
+            break;
+        endswitch;
+        $arrayCounter++;
+      }
+      return $clubArray;
+    }
+
     // Creates a table with nice formatting
     public function displayLine() {
       return str_repeat(" ", $this->whitespacing("name")[0]) . $this->name . str_repeat(" ", $this->whitespacing("name")[1]) . 
@@ -85,8 +123,43 @@
     }
   }
 
+  class Utility {
+    // Remove excess white spaces (more than 1) from a line
+    public function removeExcessWhite($line) {
+      return preg_replace('/\s\s+/', ' ', $line);
+    }
+
+    // Pass in a line removed with excess white spaces to get name
+    public function getName($line) {
+      preg_match('/\b[A-Z][A-Za-z \'&]+/', $line, $nameMatch);
+      return trim($nameMatch[0]);
+    }
+
+    public function splitLineIntoArray($line) {
+      return explode(' ', $line);
+    }
+
+    public function removeHyphenFromArray($array) {
+      unset($array[array_search('-', $array)]);
+      // reindexes the array
+      array_values($array);
+      return $array;
+    }
+
+    // Make new array without the name of club, just stat values
+    public function arrayWithoutName($array) {
+      $noNameArray = array();
+      foreach ($array as $each) {
+        if (preg_match('/[A-Za-z&]/', $each) == false) {
+          array_push($noNameArray, $each);
+        }
+      }
+      return $noNameArray;
+    } 
+  }
+
   $file = fopen("league_list.txt","r");
-  $clubsArray = array();
+  $allClubsArray = array();
 	while(! feof($file))
 	  {
 
@@ -97,72 +170,77 @@
 	    $trimmed = 	trim($line);
 
       // Remove all excess white space so that there is only 1 white space seperator
-	    $replaced = preg_replace('/\s\s+/', ' ', $trimmed);
+	    // $replaced = preg_replace('/\s\s+/', ' ', $trimmed);
+      $replaced = Utility::removeExcessWhite($trimmed);
 
-      // Stores full name of club in $nameMatch
-	    $nameHold = preg_match('/\b[A-Z][A-Za-z \'&]+/', $replaced, $nameMatch);
+      // Stores full name of club in $clubName
+	    // $nameHold = preg_match('/\b[A-Z][A-Za-z \'&]+/', $replaced, $nameMatch);
+      $clubName = Utility::getName($replaced);
 
       // Trim white spacing from name
-      $nameMatch[0] = trim($nameMatch[0]);
+      // $clubName[0] = trim($clubName[0]);
+      // $clubName = trim($clubName);
 
       // Split the string into cells - aka columns
-	    $columns = explode(' ', $replaced);
+	    $columns = Utility::splitLineIntoArray($replaced);
 
 	    // Remove hyphen from array
-	    unset($columns[array_search('-', $columns)]);
+	    // unset($columns[array_search('-', $columns)]);
+      $columns = Utility::removeHyphenFromArray($columns);
 
       // Re indexes the club columns array
-	    $columns = array_values($columns);
+	    // $columns = array_values($columns);
       
       // Remove any element relating to name from index
-      $newColumns = array();
-      foreach ($columns as $each) {
-      	if (preg_match('/[A-Za-z&]/', $each) == false) {
-          array_push($newColumns, $each);
-      	}
-      }
+      // $newColumns = array();
+      // foreach ($columns as $each) {
+      // 	if (preg_match('/[A-Za-z&]/', $each) == false) {
+      //     array_push($newColumns, $each);
+      // 	}
+      // }
+      $newColumns = Utility::arrayWithoutName($columns);
 
       // print_r($newColumns);
       
       // Turn the column into key value pair
-      $clubArray = array();
+      $clubArray = Club::turnArrayToHash($newColumns);
 
-	    $arrayCounter = 0;
-	    foreach ($newColumns as $each) {
-	    	switch ($arrayCounter):
-          case 1:
-            $clubArray["totalSeasons"] = $each;
-            break;
-          case 2:
-            $clubArray["totalGames"] = $each;
-            break;
-          case 3:
-            $clubArray["totalWins"] = $each;
-            break;
-          case 4:
-            $clubArray["totalDraws"] = $each;
-            break;
-          case 5:
-            $clubArray["totalLoses"] = $each;
-            break;
-          case 6:
-            $clubArray["totalGoals"] = $each;
-            break;
-          case 7:
-            $clubArray["totalGoalsConceded"] = $each;
-            break;
-          case 8;
-            $clubArray["totalPoints"] = $each;
-            break;	
-          default:
-            break;
-	    	endswitch;
-	    	$arrayCounter++;
-	    }
+	    // $arrayCounter = 0;
+	    // foreach ($newColumns as $each) {
+	    // 	switch ($arrayCounter):
+     //      case 1:
+     //        $clubArray["totalSeasons"] = $each;
+     //        break;
+     //      case 2:
+     //        $clubArray["totalGames"] = $each;
+     //        break;
+     //      case 3:
+     //        $clubArray["totalWins"] = $each;
+     //        break;
+     //      case 4:
+     //        $clubArray["totalDraws"] = $each;
+     //        break;
+     //      case 5:
+     //        $clubArray["totalLoses"] = $each;
+     //        break;
+     //      case 6:
+     //        $clubArray["totalGoals"] = $each;
+     //        break;
+     //      case 7:
+     //        $clubArray["totalGoalsConceded"] = $each;
+     //        break;
+     //      case 8;
+     //        $clubArray["totalPoints"] = $each;
+     //        break;	
+     //      default:
+     //        break;
+	    // 	endswitch;
+	    // 	$arrayCounter++;
+	    // }
 
-      $club = new Club($nameMatch[0], $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
+      $club = new Club($clubName, $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
 
-		  array_push($clubsArray, $club);  
+		  array_push($allClubsArray, $club);  
 		  // print_r($columns);
 		  // print_r($clubArray);
 		  // print_r($club);
@@ -171,11 +249,11 @@
     // print_r($myarray);
     
     // Sort club objects array in descending order of season average
-    usort($clubsArray, function($a, $b) {
+    usort($allClubsArray, function($a, $b) {
 	    return $b->seasonAverage > $a->seasonAverage;
 	  });
 
-    foreach ($clubsArray as $club) {
+    foreach ($allClubsArray as $club) {
       if ($ordinalCounter < 10) {
         $line = " " . $ordinalCounter . "." . $club->displayLine(); 
         echo " " . $ordinalCounter . "." . $club->displayLine();

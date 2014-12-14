@@ -130,9 +130,6 @@
 	    $arrayCounter = 0;
 	    foreach ($newColumns as $each) {
 	    	switch ($arrayCounter):
-	    	  // case 1:
-        //     $clubArray["name"] = $each;
-        //     break;
           case 1:
             $clubArray["totalSeasons"] = $each;
             break;
@@ -164,7 +161,7 @@
 	    }
 
       $club = new Club($nameMatch[0], $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
-      
+
 		  array_push($clubsArray, $club);  
 		  // print_r($columns);
 		  // print_r($clubArray);
@@ -180,10 +177,18 @@
 
     foreach ($clubsArray as $club) {
       if ($ordinalCounter < 10) {
+        $line = " " . $ordinalCounter . "." . $club->displayLine(); 
         echo " " . $ordinalCounter . "." . $club->displayLine();
       } elseif ($ordinalCounter < 100) {
+        $line = $ordinalCounter . "." . $club->displayLine(); 
         echo $ordinalCounter . "." . $club->displayLine();
       }
+      
+    //  Uncomment this if you want a new file with the updated league list ordered by season average 
+      // if(!file_put_contents("updated_league_list.txt", $line, FILE_APPEND)){
+      //   // failure
+      // }
+
       $ordinalCounter++;  
     }
     

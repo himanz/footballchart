@@ -126,7 +126,7 @@
   class Utility {
     // Remove excess white spaces (more than 1) from a line
     public function removeExcessWhite($line) {
-      return preg_replace('/\s\s+/', ' ', $line);
+      return trim(preg_replace('/\s\s+/', ' ', $line));
     }
 
     // Pass in a line removed with excess white spaces to get name
@@ -158,6 +158,85 @@
     } 
   }
 
+  class Test {
+    public function testRemoveExcessWhite() {
+      $line = " 1. Everton                    104  4062  1652   998  1412  6373 - 5719  4302  ";
+      $expectedLine = "1. Everton 104 4062 1652 998 1412 6373 - 5719 4302";
+
+      $line2 = "49. Brighton & Hove Albion       4   168    47    48    73   182 -  244   142";
+      $expectedLine2 = "49. Brighton & Hove Albion 4 168 47 48 73 182 - 244 142";
+
+      $testLine = Utility::removeExcessWhite($line);
+      $testLine2 = Utility::removeExcessWhite($line2);
+
+      if ($testLine == $expectedLine) {
+        echo "removeExcessWhite Lines match" . "\r\n";
+      } else {
+        echo "removeExcessWhite Lines do not match" . "\r\n";
+      }
+
+      if ($testLine2 == $expectedLine2) {
+        echo "removeExcessWhite Lines 2 match" . "\r\n";
+      } else {
+        echo "removeExcessWhite Lines 2 do not match" . "\r\n";
+      }
+    }
+
+    public function testGetName() {
+      $line = " 1. Everton                    104  4062  1652   998  1412  6373 - 5719  4302";
+      $expectedLine = "Everton";
+
+      $line2 = "49. Brighton & Hove Albion       4   168    47    48    73   182 -  244   142";
+      $expectedLine2 = "Brighton & Hove Albion";
+
+      $testLine = Utility::getName($line);
+      $testLine2 = Utility::getName($line2);
+
+      if ($testLine == $expectedLine) {
+        echo "getName Line expected and actual match" . "\r\n";
+      } else {
+        echo "getName Line expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testLine2 == $expectedLine2) {
+        echo "getName Line2 expected and actual match" . "\r\n";
+      } else {
+        echo "getName Line2 expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
+    public function testSplitLineToArray() {
+      $line = "1. Everton 104 4062 1652 998 1412 6373 - 5719 4302";
+      $expected = array("1.", "Everton", 104, 4062, 1652, 998, 1412, 6373, "-", 5719, 4302);
+
+      $line2 = "49. Brighton & Hove Albion 4 168 47 48 73 182 - 244 142";
+      $expected2 = array("49.", "Brighton", "&", "Hove", "Albion", 4, 168, 47, 48, 73, 182, "-", 244, 142);
+
+      $testLine = Utility::splitLineIntoArray($line);
+      $testLine2 = Utility::splitLineIntoArray($line2);
+
+      if ($testLine == $expected) {
+        echo "testSplitLinetoArray Line expected and actual match" . "\r\n";
+      } else {
+        echo "testSplitLinetoArray Line expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testLine2 == $expected2) {
+        echo "testSplitLinetoArray Line2 expected and actual match" . "\r\n";
+      } else {
+        echo "testSplitLinetoArray Line2 expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
+    public function runTests() {
+      // Test::testRemoveExcessWhite();
+      // Test::testGetName();
+      Test::testSplitLineToArray();    
+    }
+  }
+
+  Test::runTests();
+
   $file = fopen("league_list.txt","r");
   $allClubsArray = array();
 	while(! feof($file))
@@ -170,73 +249,23 @@
 	    $trimmed = 	trim($line);
 
       // Remove all excess white space so that there is only 1 white space seperator
-	    // $replaced = preg_replace('/\s\s+/', ' ', $trimmed);
       $replaced = Utility::removeExcessWhite($trimmed);
 
       // Stores full name of club in $clubName
-	    // $nameHold = preg_match('/\b[A-Z][A-Za-z \'&]+/', $replaced, $nameMatch);
       $clubName = Utility::getName($replaced);
-
-      // Trim white spacing from name
-      // $clubName[0] = trim($clubName[0]);
-      // $clubName = trim($clubName);
 
       // Split the string into cells - aka columns
 	    $columns = Utility::splitLineIntoArray($replaced);
 
 	    // Remove hyphen from array
-	    // unset($columns[array_search('-', $columns)]);
       $columns = Utility::removeHyphenFromArray($columns);
 
-      // Re indexes the club columns array
-	    // $columns = array_values($columns);
-      
-      // Remove any element relating to name from index
-      // $newColumns = array();
-      // foreach ($columns as $each) {
-      // 	if (preg_match('/[A-Za-z&]/', $each) == false) {
-      //     array_push($newColumns, $each);
-      // 	}
-      // }
       $newColumns = Utility::arrayWithoutName($columns);
 
       // print_r($newColumns);
       
       // Turn the column into key value pair
       $clubArray = Club::turnArrayToHash($newColumns);
-
-	    // $arrayCounter = 0;
-	    // foreach ($newColumns as $each) {
-	    // 	switch ($arrayCounter):
-     //      case 1:
-     //        $clubArray["totalSeasons"] = $each;
-     //        break;
-     //      case 2:
-     //        $clubArray["totalGames"] = $each;
-     //        break;
-     //      case 3:
-     //        $clubArray["totalWins"] = $each;
-     //        break;
-     //      case 4:
-     //        $clubArray["totalDraws"] = $each;
-     //        break;
-     //      case 5:
-     //        $clubArray["totalLoses"] = $each;
-     //        break;
-     //      case 6:
-     //        $clubArray["totalGoals"] = $each;
-     //        break;
-     //      case 7:
-     //        $clubArray["totalGoalsConceded"] = $each;
-     //        break;
-     //      case 8;
-     //        $clubArray["totalPoints"] = $each;
-     //        break;	
-     //      default:
-     //        break;
-	    // 	endswitch;
-	    // 	$arrayCounter++;
-	    // }
 
       $club = new Club($clubName, $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
 

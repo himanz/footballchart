@@ -16,46 +16,48 @@
       $this->seasonAverage = round($totalPoints / $seasons);
   	}
 
+    // Creates a table with nice formatting
     public function displayLine() {
       return str_repeat(" ", $this->whitespacing("name")[0]) . $this->name . str_repeat(" ", $this->whitespacing("name")[1]) . 
              str_repeat(" ", $this->whitespacing("seasons")[0]) . $this->seasons . str_repeat(" ", $this->whitespacing("seasons")[1]) .
              str_repeat(" ", $this->whitespacing("games")[0]) . $this->totalGames . str_repeat(" ", $this->whitespacing("games")[1]) .
              str_repeat(" ", $this->whitespacing("wins")[0]) . $this->totalWins . str_repeat(" ", $this->whitespacing("wins")[1]) .
-             $this->totalDraws . "  " .
-             $this->totalLoses . "  " .
-             $this->totalGoals . " - " .
-             $this->totalGoalsConceded . "  " .
-             $this->totalPoints . "  " .
+             str_repeat(" ", $this->whitespacing("draws")[0]) . $this->totalDraws . str_repeat(" ", $this->whitespacing("draws")[1]) .
+             str_repeat(" ", $this->whitespacing("losses")[0]) . $this->totalLoses . str_repeat(" ", $this->whitespacing("losses")[1]) .
+             str_repeat(" ", $this->whitespacing("goals")[0]) . $this->totalGoals . str_repeat(" ", $this->whitespacing("goals")[1]) . "- " .
+             str_repeat(" ", $this->whitespacing("goalsCondeded")[0]) . $this->totalGoalsConceded . str_repeat(" ", $this->whitespacing("goalsCondeded")[1]) . 
+             str_repeat(" ", $this->whitespacing("points")[0]) . $this->totalPoints . str_repeat(" ", $this->whitespacing("points")[1]) . 
              $this->seasonAverage . "\r\n";
     }
 
     // returns a 2 element array, first element is white space prefix, second is white space suffix
     public function whitespacing($column) {
       $nameSpace = 28;
-      // $seasonsSpace = 5;
-      $gamesSpace = 6;
-      $winsSpace = 7;
-      $drawsSpace = 5;
-      $losesSpace = 6;
-      $goalsSpace = 5;
-      $goalsConcededSpace = 7;
-      $pointsSpace = 6;
       $prefixSpace = 0;
       $suffixSpace = 2;
 
       if ($column == "name") {
         $prefixSpace = 1;
-        return array($prefixSpace, $nameSpace - strlen($this->name));
+        $suffixSpace = $nameSpace - strlen($this->name);
       } elseif ($column == "seasons") {
         $prefixSpace = $this->prefixHundredSpacing($this->seasons);
-        return array($prefixSpace, $suffixSpace);
       } elseif ($column == "games") {
         $prefixSpace = $this->prefixThousandSpacing($this->totalGames);
-        return array($prefixSpace, $suffixSpace);
       } elseif ($column == "wins") {
         $prefixSpace = $this->prefixThousandSpacing($this->totalWins);
-        return array($prefixSpace, $suffixSpace);
+      } elseif ($column == "draws") {
+        $prefixSpace = $this->prefixHundredSpacing($this->totalDraws);
+      } elseif ($column == "losses") {
+        $prefixSpace = $this->prefixThousandSpacing($this->totalLoses);
+      } elseif ($column == "goals") {
+        $prefixSpace = $this->prefixThousandSpacing($this->totalGoals);
+        $suffixSpace = 1;
+      } elseif ($column == "goalsCondeded") {
+        $prefixSpace = $this->prefixThousandSpacing($this->totalGoalsConceded);
+      } elseif ($column == "points") {
+        $prefixSpace = $this->prefixThousandSpacing($this->totalPoints);
       }
+      return array($prefixSpace, $suffixSpace);
     }
  
     // use for columns with max value less than 1000
@@ -84,7 +86,7 @@
   }
 
   $file = fopen("league_list.txt","r");
-  $myarray = array();
+  $clubsArray = array();
 	while(! feof($file))
 	  {
 
@@ -161,29 +163,9 @@
 	    	$arrayCounter++;
 	    }
 
-
-
       $club = new Club($nameMatch[0], $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
-      // $updatedLine = $line . "  " . $club->seasonAverage;
-      // echo $line . " wee";
-      // $newLine = $ordinalCounter . ". " . 
-      //            $club->name . "  " . 
-      //            $club->seasons . "  " .
-      //            $club->totalGames . "  " .
-      //            $club->totalWins . "  " .
-      //            $club->totalDraws . "  " .
-      //            $club->totalLoses . "  " .
-      //            $club->totalGoals . " - " .
-      //            $club->totalGoalsConceded . "  " .
-      //            $club->totalPoints . "  " .
-      //            $club->seasonAverage . "\r\n";
       
-      // echo $newLine;
-      // if(!file_put_contents("newleague.txt", $newLine, FILE_APPEND)){
-      //   // failure
-      // }
-      
-		  array_push($myarray, $club);  
+		  array_push($clubsArray, $club);  
 		  // print_r($columns);
 		  // print_r($clubArray);
 		  // print_r($club);
@@ -192,11 +174,11 @@
     // print_r($myarray);
     
     // Sort club objects array in descending order of season average
-    usort($myarray, function($a, $b) {
-	    return $b->seasonAverage - $a->seasonAverage;
+    usort($clubsArray, function($a, $b) {
+	    return $b->seasonAverage > $a->seasonAverage;
 	  });
 
-    foreach ($myarray as $club) {
+    foreach ($clubsArray as $club) {
       if ($ordinalCounter < 10) {
         echo " " . $ordinalCounter . "." . $club->displayLine();
       } elseif ($ordinalCounter < 100) {

@@ -56,71 +56,17 @@
 
     // Creates a table with nice formatting
     public function displayLine() {
-      return str_repeat(" ", $this->whitespacing("name")[0]) . $this->name . str_repeat(" ", $this->whitespacing("name")[1]) . 
-             str_repeat(" ", $this->whitespacing("seasons")[0]) . $this->seasons . str_repeat(" ", $this->whitespacing("seasons")[1]) .
-             str_repeat(" ", $this->whitespacing("games")[0]) . $this->totalGames . str_repeat(" ", $this->whitespacing("games")[1]) .
-             str_repeat(" ", $this->whitespacing("wins")[0]) . $this->totalWins . str_repeat(" ", $this->whitespacing("wins")[1]) .
-             str_repeat(" ", $this->whitespacing("draws")[0]) . $this->totalDraws . str_repeat(" ", $this->whitespacing("draws")[1]) .
-             str_repeat(" ", $this->whitespacing("losses")[0]) . $this->totalLoses . str_repeat(" ", $this->whitespacing("losses")[1]) .
-             str_repeat(" ", $this->whitespacing("goals")[0]) . $this->totalGoals . str_repeat(" ", $this->whitespacing("goals")[1]) . "- " .
-             str_repeat(" ", $this->whitespacing("goalsCondeded")[0]) . $this->totalGoalsConceded . str_repeat(" ", $this->whitespacing("goalsCondeded")[1]) . 
-             str_repeat(" ", $this->whitespacing("points")[0]) . $this->totalPoints . str_repeat(" ", $this->whitespacing("points")[1]) . 
+      return str_repeat(" ", Utility::whitespacing("name", $this)[0]) . $this->name . str_repeat(" ", Utility::whitespacing("name", $this)[1]) . 
+             str_repeat(" ", Utility::whitespacing("seasons", $this)[0]) . $this->seasons . str_repeat(" ", Utility::whitespacing("seasons", $this)[1]) .
+             str_repeat(" ", Utility::whitespacing("games", $this)[0]) . $this->totalGames . str_repeat(" ", Utility::whitespacing("games", $this)[1]) .
+             str_repeat(" ", Utility::whitespacing("wins", $this)[0]) . $this->totalWins . str_repeat(" ", Utility::whitespacing("wins", $this)[1]) .
+             str_repeat(" ", Utility::whitespacing("draws", $this)[0]) . $this->totalDraws . str_repeat(" ", Utility::whitespacing("draws", $this)[1]) .
+             str_repeat(" ", Utility::whitespacing("losses", $this)[0]) . $this->totalLoses . str_repeat(" ", Utility::whitespacing("losses", $this)[1]) .
+             str_repeat(" ", Utility::whitespacing("goals", $this)[0]) . $this->totalGoals . str_repeat(" ", Utility::whitespacing("goals", $this)[1]) . "- " .
+             str_repeat(" ", Utility::whitespacing("goalsCondeded", $this)[0]) . $this->totalGoalsConceded . str_repeat(" ", Utility::whitespacing("goalsCondeded", $this)[1]) . 
+             str_repeat(" ", Utility::whitespacing("points", $this)[0]) . $this->totalPoints . str_repeat(" ", Utility::whitespacing("points", $this)[1]) . 
              $this->seasonAverage . "\r\n";
     }
-
-    // returns a 2 element array, first element is white space prefix, second is white space suffix
-    public function whitespacing($column) {
-      $nameSpace = 28;
-      $prefixSpace = 0;
-      $suffixSpace = 2;
-
-      if ($column == "name") {
-        $prefixSpace = 1;
-        $suffixSpace = $nameSpace - strlen($this->name);
-      } elseif ($column == "seasons") {
-        $prefixSpace = Utility::prefixHundredSpacing($this->seasons);
-      } elseif ($column == "games") {
-        $prefixSpace = Utility::prefixThousandSpacing($this->totalGames);
-      } elseif ($column == "wins") {
-        $prefixSpace = Utility::prefixThousandSpacing($this->totalWins);
-      } elseif ($column == "draws") {
-        $prefixSpace = Utility::prefixHundredSpacing($this->totalDraws);
-      } elseif ($column == "losses") {
-        $prefixSpace = Utility::prefixThousandSpacing($this->totalLoses);
-      } elseif ($column == "goals") {
-        $prefixSpace = Utility::prefixThousandSpacing($this->totalGoals);
-        $suffixSpace = 1;
-      } elseif ($column == "goalsCondeded") {
-        $prefixSpace = Utility::prefixThousandSpacing($this->totalGoalsConceded);
-      } elseif ($column == "points") {
-        $prefixSpace = Utility::prefixThousandSpacing($this->totalPoints);
-      }
-      return array($prefixSpace, $suffixSpace);
-    }
- 
-    // // use for columns with max value less than 1000
-    // public function prefixHundredSpacing($number) {
-    //   if ($number < 10) {
-    //     return 2;
-    //   } elseif ($number < 100) {
-    //     return 1;
-    //   } else {
-    //     return 0;
-    //   }
-    // }
-
-    // // use for columns with max value less than 10000
-    // public function prefixThousandSpacing($number) {
-    //   if ($number < 10) {
-    //     return 3;
-    //   } elseif ($number < 100) {
-    //     return 2;
-    //   } elseif ($number < 1000) {
-    //     return 1;
-    //   } else {
-    //     return 0;
-    //   }
-    // }
   }
 
   class Utility {
@@ -157,6 +103,35 @@
         }
       }
       return $noNameArray;
+    }
+
+    public function whitespacing($column, $club) {
+      $nameSpace = 28;
+      $prefixSpace = 0;
+      $suffixSpace = 2;
+
+      if ($column == "name") {
+        $prefixSpace = 1;
+        $suffixSpace = $nameSpace - strlen($club->name);
+      } elseif ($column == "seasons") {
+        $prefixSpace = Utility::prefixHundredSpacing($club->seasons);
+      } elseif ($column == "games") {
+        $prefixSpace = Utility::prefixThousandSpacing($club->totalGames);
+      } elseif ($column == "wins") {
+        $prefixSpace = Utility::prefixThousandSpacing($club->totalWins);
+      } elseif ($column == "draws") {
+        $prefixSpace = Utility::prefixHundredSpacing($club->totalDraws);
+      } elseif ($column == "losses") {
+        $prefixSpace = Utility::prefixThousandSpacing($club->totalLoses);
+      } elseif ($column == "goals") {
+        $prefixSpace = Utility::prefixThousandSpacing($club->totalGoals);
+        $suffixSpace = 1;
+      } elseif ($column == "goalsCondeded") {
+        $prefixSpace = Utility::prefixThousandSpacing($club->totalGoalsConceded);
+      } elseif ($column == "points") {
+        $prefixSpace = Utility::prefixThousandSpacing($club->totalPoints);
+      }
+      return array($prefixSpace, $suffixSpace);
     }
 
     // use for columns with max value less than 1000

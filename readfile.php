@@ -16,6 +16,7 @@
       $this->seasonAverage = round($totalPoints / $seasons);
   	}
 
+    // Turn a formatted array without the name but with ordinal still there to an array with key value pair
     public function turnArrayToHash($array) {
       $clubArray = array();
 
@@ -165,6 +166,27 @@
         return "This number is too large for this function, use make a new function"; 
       }
     } 
+  }
+
+  // Test classes start
+
+  class ClubTest {
+    public function testTurnArrayToHash() {
+      $array = array("1.", 104, 4062, 1652, 998, 1412, 6373, 5719, 4302);
+      $expectedArray = array("totalSeasons"=>104, "totalGames"=>4062, "totalWins"=>1652, "totalDraws"=>998, "totalLoses"=>1412, "totalGoals"=>6373, "totalGoalsConceded"=>5719, "totalPoints"=>4302);
+
+      $testArray = Club::turnArrayToHash($array);
+
+      if ($testArray == $expectedArray) {
+        echo "turnArrayToHash Array expected and actual match" . "\r\n";
+      } else {
+        echo "turnArrayToHash Array expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
+    public function runTests() {
+      ClubTest::testTurnArrayToHash();
+    }
   }
 
   class UtilityTest {
@@ -415,18 +437,20 @@
     }
 
     public function runTests() {
-      // UtilityTest::testRemoveExcessWhite();
-      // UtilityTest::testGetName();
-      // UtilityTest::testSplitLineToArray();
-      // UtilityTest::testRemoveHyphenFromArray();
-      // UtilityTest::testArrayWithoutName();
-      // UtilityTest::testPrefixHundredSpacing();
-      // UtilityTest::testPrefixThousandSpacing();  
+      UtilityTest::testRemoveExcessWhite();
+      UtilityTest::testGetName();
+      UtilityTest::testSplitLineToArray();
+      UtilityTest::testRemoveHyphenFromArray();
+      UtilityTest::testArrayWithoutName();
+      UtilityTest::testPrefixHundredSpacing();
+      UtilityTest::testPrefixThousandSpacing();  
       UtilityTest::testWhitespacing();
     }
   }
 
-  UtilityTest::runTests();
+  // Run Tests
+  // UtilityTest::runTests();
+  ClubTest::runTests();
 
   $file = fopen("league_list.txt","r");
   $allClubsArray = array();

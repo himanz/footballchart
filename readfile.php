@@ -257,8 +257,22 @@
       }
     }
 
+    public function testDisplayLine() {
+      $club = new Club("Test Club", 104, 4062, 1652, 998, 1412, 6373, 5719, 4000);
+      $expectedOutput = " Test Club                  104  4062  1652  998  1412  6373 - 5719  4000  38" . "\r\n";
+      
+      $testOutput = $club->displayLine();
+
+      if ($testOutput == $expectedOutput) {
+        echo "displayLine Output expected and actual match" . "\r\n";
+      } else {
+        echo "displayLine Output expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
     public function runTests() {
       ClubTest::testTurnArrayToHash();
+      ClubTest::testDisplayLine();
     }
   }
 

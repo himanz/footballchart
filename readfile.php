@@ -105,6 +105,7 @@
       return $noNameArray;
     }
 
+    // Determine prefix and suffix space, takes in column name and a club object
     public function whitespacing($column, $club) {
       $nameSpace = 28;
       $prefixSpace = 0;
@@ -140,6 +141,8 @@
         return 2;
       } elseif ($number < 100) {
         return 1;
+      }  elseif ($number >= 1000) {
+        return "This number is too large for this function, use prefixThousandSpacing";
       } else {
         return 0;
       }
@@ -265,22 +268,66 @@
       if ($testArray == $expected) {
         echo "testArrayWithoutName Array expected and actual match" . "\r\n";
       } else {
-        echo "testArrayWithoutName Array and expected DO NOT match" . "\r\n";
+        echo "testArrayWithoutName Array expected and actual DO NOT match" . "\r\n";
       }  
 
       if ($testArray2 == $expected2) {
         echo "testArrayWithoutName Array2 expected and actual match" . "\r\n";
       } else {
-        echo "testArrayWithoutName Array2 and expected DO NOT match" . "\r\n";
+        echo "testArrayWithoutName Array2 expected and DO NOT match" . "\r\n";
+      }
+    }
+
+    public function testPrefixHundredSpacing() {
+      $number = 100;
+      $expected = 0;
+
+      $number2 = 8;
+      $expected2 = 2;
+
+      $number3 = 55;
+      $expected3 = 1;
+
+      $number4 = 1001;
+      $expected4 = "This number is too large for this function, use prefixThousandSpacing";
+
+      $testNumber = Utility::prefixHundredSpacing($number);
+      $testNumber2 = Utility::prefixHundredSpacing($number2);
+      $testNumber3 = Utility::prefixHundredSpacing($number3);
+      $testNumber4 = Utility::prefixHundredSpacing($number4);
+
+      if ($testNumber == $expected) {
+        echo "testPrefixundredSpacing Number expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixundredSpacing Number expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber2 == $expected2) {
+        echo "testPrefixundredSpacing Number2 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixundredSpacing Number2 expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber3 == $expected3) {
+        echo "testPrefixundredSpacing Number3 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixundredSpacing Number3 expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber4 == $expected4) {
+        echo "testPrefixundredSpacing Number4 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixundredSpacing Number4 expected and actual DO NOT match" . "\r\n";
       }
     }
 
     public function runTests() {
-      UtilityTest::testRemoveExcessWhite();
-      UtilityTest::testGetName();
-      UtilityTest::testSplitLineToArray();
-      UtilityTest::testRemoveHyphenFromArray();
-      UtilityTest::testArrayWithoutName();  
+      // UtilityTest::testRemoveExcessWhite();
+      // UtilityTest::testGetName();
+      // UtilityTest::testSplitLineToArray();
+      // UtilityTest::testRemoveHyphenFromArray();
+      // UtilityTest::testArrayWithoutName();
+      UtilityTest::testPrefixHundredSpacing();  
     }
   }
 

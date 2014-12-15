@@ -141,10 +141,10 @@
         return 2;
       } elseif ($number < 100) {
         return 1;
-      }  elseif ($number >= 1000) {
-        return "This number is too large for this function, use prefixThousandSpacing";
-      } else {
+      }  elseif ($number < 1000) {
         return 0;
+      } else {
+        return "This number is too large for this function, use prefixThousandSpacing";
       }
     }
 
@@ -156,8 +156,10 @@
         return 2;
       } elseif ($number < 1000) {
         return 1;
-      } else {
+      } elseif ($number < 10000) {
         return 0;
+      } else {
+        return "This number is too large for this function, use make a new function"; 
       }
     } 
   }
@@ -297,27 +299,80 @@
       $testNumber4 = Utility::prefixHundredSpacing($number4);
 
       if ($testNumber == $expected) {
-        echo "testPrefixundredSpacing Number expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number expected and actual match" . "\r\n";
       } else {
-        echo "testPrefixundredSpacing Number expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number expected and actual DO NOT match" . "\r\n";
       }
 
       if ($testNumber2 == $expected2) {
-        echo "testPrefixundredSpacing Number2 expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number2 expected and actual match" . "\r\n";
       } else {
-        echo "testPrefixundredSpacing Number2 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number2 expected and actual DO NOT match" . "\r\n";
       }
 
       if ($testNumber3 == $expected3) {
-        echo "testPrefixundredSpacing Number3 expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number3 expected and actual match" . "\r\n";
       } else {
-        echo "testPrefixundredSpacing Number3 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number3 expected and actual DO NOT match" . "\r\n";
       }
 
       if ($testNumber4 == $expected4) {
-        echo "testPrefixundredSpacing Number4 expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number4 expected and actual match" . "\r\n";
       } else {
-        echo "testPrefixundredSpacing Number4 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number4 expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
+    public function testPrefixThousandSpacing() {
+      $number = 2222;
+      $expected = 0;
+
+      $number2 = 350;
+      $expected2 = 1;
+
+      $number3 = 55;
+      $expected3 = 2;
+
+      $number4 = 7;
+      $expected4 = 3;
+
+      $number5 = 10000;
+      $expected5 = "This number is too large for this function, use make a new function";
+
+      $testNumber = Utility::prefixThousandSpacing($number);
+      $testNumber2 = Utility::prefixThousandSpacing($number2);
+      $testNumber3 = Utility::prefixThousandSpacing($number3);
+      $testNumber4 = Utility::prefixThousandSpacing($number4);
+      $testNumber5 = Utility::prefixThousandSpacing($number5);
+
+      if ($testNumber == $expected) {
+        echo "testPrefixThousandSpacing Number expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixThousandSpacing Number expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber2 == $expected2) {
+        echo "testPrefixThousandSpacing Number2 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixThousandSpacing Number2 expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber3 == $expected3) {
+        echo "testPrefixThousandSpacing Number3 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixThousandSpacing Number3 expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber4 == $expected4) {
+        echo "testPrefixThousandSpacing Number4 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixThousandSpacing Number4 expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testNumber5 == $expected5) {
+        echo "testPrefixThousandSpacing Number4 expected and actual match" . "\r\n";
+      } else {
+        echo "testPrefixThousandSpacing Number4 expected and actual DO NOT match" . "\r\n";
       }
     }
 
@@ -327,7 +382,8 @@
       // UtilityTest::testSplitLineToArray();
       // UtilityTest::testRemoveHyphenFromArray();
       // UtilityTest::testArrayWithoutName();
-      UtilityTest::testPrefixHundredSpacing();  
+      // UtilityTest::testPrefixHundredSpacing();
+      UtilityTest::testPrefixThousandSpacing();  
     }
   }
 

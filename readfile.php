@@ -107,7 +107,10 @@
 
     // Determine prefix and suffix space, takes in column name and a club object
     public function whitespacing($column, $club) {
-      $nameSpace = 28;
+      // Space for name from beginning till 1 space before the next number column
+      $nameSpace = 27;
+
+      // Default values
       $prefixSpace = 0;
       $suffixSpace = 2;
 
@@ -376,6 +379,41 @@
       }
     }
 
+    public function testWhitespacing() {
+      $club = new Club("Test Club", 104, 4062, 1652, 998, 1412, 6373, 5719, 950);
+      
+      $columnName = "name";
+      $expected = array(1, 18);
+
+      $columnName2 = "seasons";
+      $expected2 = array(0, 2);
+
+      $columnName3 = "points";
+      $expected3 = array(1, 2);
+
+      $testColumnName = Utility::whitespacing($columnName, $club);
+      $testColumnName2 = Utility::whitespacing($columnName2, $club);
+      $testColumnName3 = Utility::whitespacing($columnName3, $club);
+
+      if ($testColumnName == $expected) {
+        echo "testWhitespacing Array expected and actual match" . "\r\n";
+      } else {
+        echo "testWhitespacing Array expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testColumnName2 == $expected2) {
+        echo "testWhitespacing Array2 expected and actual match" . "\r\n";
+      } else {
+        echo "testWhitespacing Array2 expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testColumnName3 == $expected3) {
+        echo "testWhitespacing Array3 expected and actual match" . "\r\n";
+      } else {
+        echo "testWhitespacing Array3 expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
     public function runTests() {
       // UtilityTest::testRemoveExcessWhite();
       // UtilityTest::testGetName();
@@ -383,7 +421,8 @@
       // UtilityTest::testRemoveHyphenFromArray();
       // UtilityTest::testArrayWithoutName();
       // UtilityTest::testPrefixHundredSpacing();
-      UtilityTest::testPrefixThousandSpacing();  
+      // UtilityTest::testPrefixThousandSpacing();  
+      UtilityTest::testWhitespacing();
     }
   }
 

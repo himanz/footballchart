@@ -31,15 +31,16 @@
           return $b->seasonAverage > $a->seasonAverage;
         });
 
-        // Creates the table to console
         foreach ($allClubsArray as $club) {
           if ($ordinalCounter < 10) {
             $line = " " . $ordinalCounter . "." . $club->displayLine(); 
-            echo " " . $ordinalCounter . "." . $club->displayLine();
+            fwrite(STDOUT, $line);
           } elseif ($ordinalCounter < 100) {
             $line = $ordinalCounter . "." . $club->displayLine(); 
-            echo $ordinalCounter . "." . $club->displayLine();
+            fwrite(STDOUT, $line);
           }
+
+          
           
           $ordinalCounter++;
 

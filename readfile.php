@@ -233,8 +233,6 @@
       $columns = Utility::removeHyphenFromArray($columns);
 
       $newColumns = Utility::arrayWithoutName($columns);
-
-      // print_r($newColumns);
       
       // Turn the column into key value pair
       $clubArray = Club::turnArrayToHash($newColumns);
@@ -511,15 +509,29 @@
       }
     }
 
+    public function testMakeLineReady() {
+      $line =  " 1. Everton                    104  4062  1652   998  1412  6373 - 5719  4302     ";
+      $expectedArray = array("totalSeasons"=>104, "totalGames"=>4062, "totalWins"=>1652, "totalDraws"=>998, "totalLoses"=>1412, "totalGoals"=>6373, "totalGoalsConceded"=>5719, "totalPoints"=>4302);
+
+      $testArray = Utility::makeLineReady($line);
+
+      if ($testArray == $expectedArray) {
+        echo "testMakeLineReady Array expected and actual match" . "\r\n";
+      } else {
+        echo "testMakeLineReady Array expected and actual DO NOT match" . "\r\n";
+      }
+    }
+
     public function runTests() {
-      UtilityTest::testRemoveExcessWhite();
-      UtilityTest::testGetName();
-      UtilityTest::testSplitLineToArray();
-      UtilityTest::testRemoveHyphenFromArray();
-      UtilityTest::testArrayWithoutName();
-      UtilityTest::testPrefixHundredSpacing();
-      UtilityTest::testPrefixThousandSpacing();  
-      UtilityTest::testWhitespacing();
+      // UtilityTest::testRemoveExcessWhite();
+      // UtilityTest::testGetName();
+      // UtilityTest::testSplitLineToArray();
+      // UtilityTest::testRemoveHyphenFromArray();
+      // UtilityTest::testArrayWithoutName();
+      // UtilityTest::testPrefixHundredSpacing();
+      // UtilityTest::testPrefixThousandSpacing();  
+      // UtilityTest::testWhitespacing();
+      // UtilityTest::testMakeLineReady();
     }
   }
 

@@ -142,15 +142,15 @@
     public function removeHyphenFromArray($array) {
       unset($array[array_search('-', $array)]);
       // reindexes the array
-      array_values($array);
-      return $array;
+      $reindexArray = array_values($array);
+      return $reindexArray;
     }
 
     // Make new array without the name of club, just stat values
     public function arrayWithoutName($array) {
       $noNameArray = array();
       foreach ($array as $each) {
-        if (preg_match('/[A-Za-z&]/', $each) == false) {
+        if (preg_match('/[0-9]/', $each)) {
           array_push($noNameArray, $each);
         }
       }
@@ -228,10 +228,58 @@
       }
     }
 
+    public function testRemoveHyphenFromArray() {
+      $array = array("1.", "Everton", 104, 4062, 1652, 998, 1412, 6373, "-", 5719, 4302);
+      $expected = array("1.", "Everton", 104, 4062, 1652, 998, 1412, 6373, 5719, 4302);
+ 
+      $array2 = array("49.", "Brighton", "&", "Hove", "Albion", 4, 168, 47, 48, 73, 182, "-", 244, 142);
+      $expected2 = array("49.", "Brighton", "&", "Hove", "Albion", 4, 168, 47, 48, 73, 182, 244, 142);
+
+      $testArray = Utility::removeHyphenFromArray($array);
+      $testArray2 = Utility::removeHyphenFromArray($array2);
+      
+      if ($testArray == $expected) {
+        echo "testRemoveHyphenFromArray Array expected and actual match" . "\r\n";
+      } else {
+        echo "testRemoveHyphenFromArray Array expected and actual DO NOT match" . "\r\n";
+      }
+
+      if ($testArray2 == $expected2) {
+        echo "testRemoveHyphenFromArray Array2 expected and actual match" . "\r\n";
+      } else {
+        echo "testRemoveHyphenFromArray Array2 expected and actual DO NOT match" . "\r\n";
+      }      
+    }
+
+    public function testArrayWithoutName() {
+      $array = array("1.", "Everton", 104, 4062, 1652, 998, 1412, 6373, 5719, 4302);
+      $expected = array("1.", 104, 4062, 1652, 998, 1412, 6373, 5719, 4302);
+
+      $array2 = array("49.", "Brighton", "&", "Hove", "Albion", 4, 168, 47, 48, 73, 182, 244, 142);
+      $expected2 = array("49.", 4, 168, 47, 48, 73, 182, 244, 142);
+
+      $testArray = Utility::arrayWithoutName($array);
+      $testArray2 = Utility::arrayWithoutName($array2);
+
+      if ($testArray == $expected) {
+        echo "testArrayWithoutName Array expected and actual match" . "\r\n";
+      } else {
+        echo "testArrayWithoutName Array and expected DO NOT match" . "\r\n";
+      }  
+
+      if ($testArray2 == $expected2) {
+        echo "testArrayWithoutName Array2 expected and actual match" . "\r\n";
+      } else {
+        echo "testArrayWithoutName Array2 and expected DO NOT match" . "\r\n";
+      }
+    }
+
     public function runTests() {
-      // Test::testRemoveExcessWhite();
-      // Test::testGetName();
-      Test::testSplitLineToArray();    
+      Test::testRemoveExcessWhite();
+      Test::testGetName();
+      Test::testSplitLineToArray();
+      Test::testRemoveHyphenFromArray();
+      Test::testArrayWithoutName();  
     }
   }
 

@@ -117,7 +117,7 @@
              str_repeat(" ", Utility::whitespacing("goals", $this)[0]) . $this->totalGoals . str_repeat(" ", Utility::whitespacing("goals", $this)[1]) . "- " .
              str_repeat(" ", Utility::whitespacing("goalsCondeded", $this)[0]) . $this->totalGoalsConceded . str_repeat(" ", Utility::whitespacing("goalsCondeded", $this)[1]) . 
              str_repeat(" ", Utility::whitespacing("points", $this)[0]) . $this->totalPoints . str_repeat(" ", Utility::whitespacing("points", $this)[1]) . 
-             $this->seasonAverage . "\r\n";
+             $this->seasonAverage . "\n";
     }
   }
 
@@ -251,22 +251,22 @@
       $testArray = Club::turnArrayToHash($array);
 
       if ($testArray == $expectedArray) {
-        echo "testTurnArrayToHash Array expected and actual match" . "\r\n";
+        echo "testTurnArrayToHash Array expected and actual match" . "\n";
       } else {
-        echo "testTurnArrayToHash Array expected and actual DO NOT match" . "\r\n";
+        echo "testTurnArrayToHash Array expected and actual DO NOT match" . "\n";
       }
     }
 
     public function testDisplayLine() {
       $club = new Club("Test Club", 104, 4062, 1652, 998, 1412, 6373, 5719, 4000);
-      $expectedOutput = " Test Club                  104  4062  1652  998  1412  6373 - 5719  4000  38" . "\r\n";
+      $expectedOutput = " Test Club                  104  4062  1652  998  1412  6373 - 5719  4000  38" . "\n";
       
       $testOutput = $club->displayLine();
 
       if ($testOutput == $expectedOutput) {
-        echo "testDisplayLine Output expected and actual match" . "\r\n";
+        echo "testDisplayLine Output expected and actual match" . "\n";
       } else {
-        echo "testDisplayLine Output expected and actual DO NOT match" . "\r\n";
+        echo "testDisplayLine Output expected and actual DO NOT match" . "\n";
       }
     }
 
@@ -288,9 +288,9 @@
       $testLine2 = Utility::removeExcessWhite($line2);
 
       if ($testLine == $expectedLine) {
-        echo "testRemoveExcessWhite Line expected and actual match" . "\r\n";
+        echo "testRemoveExcessWhite Line expected and actual match" . "\n";
       } else {
-        echo "testRemoveExcessWhite Line expected and actual DO NOT match" . "\r\n";
+        echo "testRemoveExcessWhite Line expected and actual DO NOT match" . "\n";
       }
 
       if ($testLine2 == $expectedLine2) {
@@ -311,15 +311,15 @@
       $testLine2 = Utility::getName($line2);
 
       if ($testLine == $expectedLine) {
-        echo "testGetName Line expected and actual match" . "\r\n";
+        echo "testGetName Line expected and actual match" . "\n";
       } else {
-        echo "testGetName Line expected and actual DO NOT match" . "\r\n";
+        echo "testGetName Line expected and actual DO NOT match" . "\n";
       }
 
       if ($testLine2 == $expectedLine2) {
-        echo "getName Line2 expected and actual match" . "\r\n";
+        echo "testGetName Line2 expected and actual match" . "\n";
       } else {
-        echo "getName Line2 expected and actual DO NOT match" . "\r\n";
+        echo "testGetName Line2 expected and actual DO NOT match" . "\n";
       }
     }
 
@@ -334,15 +334,15 @@
       $testLine2 = Utility::splitLineIntoArray($line2);
 
       if ($testLine == $expected) {
-        echo "testSplitLinetoArray Line expected and actual match" . "\r\n";
+        echo "testSplitLinetoArray Line expected and actual match" . "\n";
       } else {
-        echo "testSplitLinetoArray Line expected and actual DO NOT match" . "\r\n";
+        echo "testSplitLinetoArray Line expected and actual DO NOT match" . "\n";
       }
 
       if ($testLine2 == $expected2) {
-        echo "testSplitLinetoArray Line2 expected and actual match" . "\r\n";
+        echo "testSplitLinetoArray Line2 expected and actual match" . "\n";
       } else {
-        echo "testSplitLinetoArray Line2 expected and actual DO NOT match" . "\r\n";
+        echo "testSplitLinetoArray Line2 expected and actual DO NOT match" . "\n";
       }
     }
 
@@ -357,15 +357,15 @@
       $testArray2 = Utility::removeHyphenFromArray($array2);
       
       if ($testArray == $expected) {
-        echo "testRemoveHyphenFromArray Array expected and actual match" . "\r\n";
+        echo "testRemoveHyphenFromArray Array expected and actual match" . "\n";
       } else {
-        echo "testRemoveHyphenFromArray Array expected and actual DO NOT match" . "\r\n";
+        echo "testRemoveHyphenFromArray Array expected and actual DO NOT match" . "\n";
       }
 
       if ($testArray2 == $expected2) {
-        echo "testRemoveHyphenFromArray Array2 expected and actual match" . "\r\n";
+        echo "testRemoveHyphenFromArray Array2 expected and actual match" . "\n";
       } else {
-        echo "testRemoveHyphenFromArray Array2 expected and actual DO NOT match" . "\r\n";
+        echo "testRemoveHyphenFromArray Array2 expected and actual DO NOT match" . "\n";
       }      
     }
 
@@ -380,15 +380,15 @@
       $testArray2 = Utility::arrayWithoutName($array2);
 
       if ($testArray == $expected) {
-        echo "testArrayWithoutName Array expected and actual match" . "\r\n";
+        echo "testArrayWithoutName Array expected and actual match" . "\n";
       } else {
-        echo "testArrayWithoutName Array expected and actual DO NOT match" . "\r\n";
+        echo "testArrayWithoutName Array expected and actual DO NOT match" . "\n";
       }  
 
       if ($testArray2 == $expected2) {
-        echo "testArrayWithoutName Array2 expected and actual match" . "\r\n";
+        echo "testArrayWithoutName Array2 expected and actual match" . "\n";
       } else {
-        echo "testArrayWithoutName Array2 expected and DO NOT match" . "\r\n";
+        echo "testArrayWithoutName Array2 expected and DO NOT match" . "\n";
       }
     }
 
@@ -411,27 +411,27 @@
       $testNumber4 = Utility::prefixHundredSpacing($number4);
 
       if ($testNumber == $expected) {
-        echo "testPrefixHundredSpacing Number expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number expected and actual match" . "\n";
       } else {
-        echo "testPrefixHundredSpacing Number expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber2 == $expected2) {
-        echo "testPrefixHundredSpacing Number2 expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number2 expected and actual match" . "\n";
       } else {
-        echo "testPrefixHundredSpacing Number2 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number2 expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber3 == $expected3) {
-        echo "testPrefixHundredSpacing Number3 expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number3 expected and actual match" . "\n";
       } else {
-        echo "testPrefixHundredSpacing Number3 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number3 expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber4 == $expected4) {
-        echo "testPrefixHundredSpacing Number4 expected and actual match" . "\r\n";
+        echo "testPrefixHundredSpacing Number4 expected and actual match" . "\n";
       } else {
-        echo "testPrefixHundredSpacing Number4 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixHundredSpacing Number4 expected and actual DO NOT match" . "\n";
       }
     }
 
@@ -458,33 +458,33 @@
       $testNumber5 = Utility::prefixThousandSpacing($number5);
 
       if ($testNumber == $expected) {
-        echo "testPrefixThousandSpacing Number expected and actual match" . "\r\n";
+        echo "testPrefixThousandSpacing Number expected and actual match" . "\n";
       } else {
-        echo "testPrefixThousandSpacing Number expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixThousandSpacing Number expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber2 == $expected2) {
-        echo "testPrefixThousandSpacing Number2 expected and actual match" . "\r\n";
+        echo "testPrefixThousandSpacing Number2 expected and actual match" . "\n";
       } else {
-        echo "testPrefixThousandSpacing Number2 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixThousandSpacing Number2 expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber3 == $expected3) {
-        echo "testPrefixThousandSpacing Number3 expected and actual match" . "\r\n";
+        echo "testPrefixThousandSpacing Number3 expected and actual match" . "\n";
       } else {
-        echo "testPrefixThousandSpacing Number3 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixThousandSpacing Number3 expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber4 == $expected4) {
-        echo "testPrefixThousandSpacing Number4 expected and actual match" . "\r\n";
+        echo "testPrefixThousandSpacing Number4 expected and actual match" . "\n";
       } else {
-        echo "testPrefixThousandSpacing Number4 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixThousandSpacing Number4 expected and actual DO NOT match" . "\n";
       }
 
       if ($testNumber5 == $expected5) {
-        echo "testPrefixThousandSpacing Number4 expected and actual match" . "\r\n";
+        echo "testPrefixThousandSpacing Number4 expected and actual match" . "\n";
       } else {
-        echo "testPrefixThousandSpacing Number4 expected and actual DO NOT match" . "\r\n";
+        echo "testPrefixThousandSpacing Number4 expected and actual DO NOT match" . "\n";
       }
     }
 
@@ -505,21 +505,21 @@
       $testColumnName3 = Utility::whitespacing($columnName3, $club);
 
       if ($testColumnName == $expected) {
-        echo "testWhitespacing Array expected and actual match" . "\r\n";
+        echo "testWhitespacing Array expected and actual match" . "\n";
       } else {
-        echo "testWhitespacing Array expected and actual DO NOT match" . "\r\n";
+        echo "testWhitespacing Array expected and actual DO NOT match" . "\n";
       }
 
       if ($testColumnName2 == $expected2) {
-        echo "testWhitespacing Array2 expected and actual match" . "\r\n";
+        echo "testWhitespacing Array2 expected and actual match" . "\n";
       } else {
-        echo "testWhitespacing Array2 expected and actual DO NOT match" . "\r\n";
+        echo "testWhitespacing Array2 expected and actual DO NOT match" . "\n";
       }
 
       if ($testColumnName3 == $expected3) {
-        echo "testWhitespacing Array3 expected and actual match" . "\r\n";
+        echo "testWhitespacing Array3 expected and actual match" . "\n";
       } else {
-        echo "testWhitespacing Array3 expected and actual DO NOT match" . "\r\n";
+        echo "testWhitespacing Array3 expected and actual DO NOT match" . "\n";
       }
     }
 
@@ -530,9 +530,9 @@
       $testArray = Utility::makeLineReady($line);
 
       if ($testArray == $expectedArray) {
-        echo "testMakeLineReady Array expected and actual match" . "\r\n";
+        echo "testMakeLineReady Array expected and actual match" . "\n";
       } else {
-        echo "testMakeLineReady Array expected and actual DO NOT match" . "\r\n";
+        echo "testMakeLineReady Array expected and actual DO NOT match" . "\n";
       }
     }
 

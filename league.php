@@ -294,9 +294,9 @@
       }
 
       if ($testLine2 == $expectedLine2) {
-        echo "testRemoveExcessWhite Lines 2 match" . "\r\n";
+        echo "testRemoveExcessWhite Lines 2 match" . "\n";
       } else {
-        echo "testRemoveExcessWhite Lines 2 do not match" . "\r\n";
+        echo "testRemoveExcessWhite Lines 2 do not match" . "\n";
       }
     }
 

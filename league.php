@@ -40,8 +40,6 @@
             fwrite(STDOUT, $line);
           }
 
-          
-          
           $ordinalCounter++;
 
          // Uncomment this if you want a new file with the updated league list ordered by season average 

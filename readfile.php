@@ -1,6 +1,57 @@
 <?php
-  // $myfile = fopen("league_list.txt", "r") or die("Unable to open file!");
-  $ordinalCounter = 1;
+  class Main {
+    // Runs the script
+    public function start() {
+      $file = fopen("league_list.txt","r") or die("Unable to open file!");
+      // Stores each club object in array
+      $allClubsArray = array();
+      // Counter to determine ordinal value
+      $ordinalCounter = 1;
+
+      while(! feof($file))
+        {
+          // grabs current line in the file
+          $line = fgets($file);
+
+          // Send in a line with excess white space to get the name of the club
+          $clubName = Utility::getName(Utility::removeExcessWhite($line));
+
+          // key value of club information for easier understanding of code
+          $clubArray = Utility::makeLineReady($line); 
+
+          // Create club object
+          $club = new Club($clubName, $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
+
+          // store all club objects in an array
+          array_push($allClubsArray, $club);  
+        }
+        
+        // Sort club objects array in descending order of season average
+        usort($allClubsArray, function($a, $b) {
+          return $b->seasonAverage > $a->seasonAverage;
+        });
+
+        // Creates the table to console
+        foreach ($allClubsArray as $club) {
+          if ($ordinalCounter < 10) {
+            $line = " " . $ordinalCounter . "." . $club->displayLine(); 
+            echo " " . $ordinalCounter . "." . $club->displayLine();
+          } elseif ($ordinalCounter < 100) {
+            $line = $ordinalCounter . "." . $club->displayLine(); 
+            echo $ordinalCounter . "." . $club->displayLine();
+          }
+          
+          $ordinalCounter++;
+
+         // Uncomment this if you want a new file with the updated league list ordered by season average 
+          // if(!file_put_contents("updated_league_list.txt", $line, FILE_APPEND)){
+          //    // failure
+          //   echo "Failed to put data into file";
+          // } 
+        }
+      fclose($file);
+    }  
+  }
 
   class Club {
   	public function __construct($name, $seasons, $totalGames, $totalWins, $totalDraws, $totalLoses, $totalGoals, $totalGoalsConceded, $totalPoints) {
@@ -19,8 +70,8 @@
     // Turn a formatted array without the name but with ordinal still there to an array with key value pair
     public function turnArrayToHash($array) {
       $clubArray = array();
-
       $arrayCounter = 0;
+
       foreach ($array as $each) {
         switch ($arrayCounter):
           case 1:
@@ -165,7 +216,31 @@
       } else {
         return "This number is too large for this function, use make a new function"; 
       }
-    } 
+    }
+
+    // commands to turn line into a hash array for the creation of club object
+    public function makeLineReady($line) {
+      // Remove excess white space from line
+      $replaced = Utility::removeExcessWhite($line);
+
+      // Stores full name of club in $clubName
+      $clubName = Utility::getName($replaced);
+
+      // Split the string into cells - aka columns
+      $columns = Utility::splitLineIntoArray($replaced);
+
+      // Remove hyphen from array
+      $columns = Utility::removeHyphenFromArray($columns);
+
+      $newColumns = Utility::arrayWithoutName($columns);
+
+      // print_r($newColumns);
+      
+      // Turn the column into key value pair
+      $clubArray = Club::turnArrayToHash($newColumns);
+
+      return $clubArray;
+    }
   }
 
   // Test classes start
@@ -449,73 +524,9 @@
   }
 
   // Run Tests
+  // Uncomment Lines below to run tests on classes
   // UtilityTest::runTests();
-  ClubTest::runTests();
+  // ClubTest::runTests();
 
-  $file = fopen("league_list.txt","r");
-  $allClubsArray = array();
-	while(! feof($file))
-	  {
-
-		  // fgets($file). "\r\n";
-		  $line = fgets($file);
-	    
-	    // Remove white space at start and end of sentence
-	    $trimmed = 	trim($line);
-
-      // Remove all excess white space so that there is only 1 white space seperator
-      $replaced = Utility::removeExcessWhite($trimmed);
-
-      // Stores full name of club in $clubName
-      $clubName = Utility::getName($replaced);
-
-      // Split the string into cells - aka columns
-	    $columns = Utility::splitLineIntoArray($replaced);
-
-	    // Remove hyphen from array
-      $columns = Utility::removeHyphenFromArray($columns);
-
-      $newColumns = Utility::arrayWithoutName($columns);
-
-      // print_r($newColumns);
-      
-      // Turn the column into key value pair
-      $clubArray = Club::turnArrayToHash($newColumns);
-
-      $club = new Club($clubName, $clubArray['totalSeasons'], $clubArray['totalGames'], $clubArray['totalWins'], $clubArray['totalDraws'], $clubArray['totalLoses'], $clubArray['totalGoals'], $clubArray['totalGoalsConceded'], $clubArray['totalPoints']);
-
-		  array_push($allClubsArray, $club);  
-		  // print_r($columns);
-		  // print_r($clubArray);
-		  // print_r($club);
-		  // echo $club->seasonAverage;
-	  }
-    // print_r($myarray);
-    
-    // Sort club objects array in descending order of season average
-    usort($allClubsArray, function($a, $b) {
-	    return $b->seasonAverage > $a->seasonAverage;
-	  });
-
-    foreach ($allClubsArray as $club) {
-      if ($ordinalCounter < 10) {
-        $line = " " . $ordinalCounter . "." . $club->displayLine(); 
-        echo " " . $ordinalCounter . "." . $club->displayLine();
-      } elseif ($ordinalCounter < 100) {
-        $line = $ordinalCounter . "." . $club->displayLine(); 
-        echo $ordinalCounter . "." . $club->displayLine();
-      }
-      
-    //  Uncomment this if you want a new file with the updated league list ordered by season average 
-      // if(!file_put_contents("updated_league_list.txt", $line, FILE_APPEND)){
-      //   // failure
-      // }
-
-      $ordinalCounter++;  
-    }
-    
-	  // print_r($myarray);
-	fclose($file);
-  
-
+  Main::start();
 ?>

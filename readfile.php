@@ -78,26 +78,87 @@
         $prefixSpace = 1;
         $suffixSpace = $nameSpace - strlen($this->name);
       } elseif ($column == "seasons") {
-        $prefixSpace = $this->prefixHundredSpacing($this->seasons);
+        $prefixSpace = Utility::prefixHundredSpacing($this->seasons);
       } elseif ($column == "games") {
-        $prefixSpace = $this->prefixThousandSpacing($this->totalGames);
+        $prefixSpace = Utility::prefixThousandSpacing($this->totalGames);
       } elseif ($column == "wins") {
-        $prefixSpace = $this->prefixThousandSpacing($this->totalWins);
+        $prefixSpace = Utility::prefixThousandSpacing($this->totalWins);
       } elseif ($column == "draws") {
-        $prefixSpace = $this->prefixHundredSpacing($this->totalDraws);
+        $prefixSpace = Utility::prefixHundredSpacing($this->totalDraws);
       } elseif ($column == "losses") {
-        $prefixSpace = $this->prefixThousandSpacing($this->totalLoses);
+        $prefixSpace = Utility::prefixThousandSpacing($this->totalLoses);
       } elseif ($column == "goals") {
-        $prefixSpace = $this->prefixThousandSpacing($this->totalGoals);
+        $prefixSpace = Utility::prefixThousandSpacing($this->totalGoals);
         $suffixSpace = 1;
       } elseif ($column == "goalsCondeded") {
-        $prefixSpace = $this->prefixThousandSpacing($this->totalGoalsConceded);
+        $prefixSpace = Utility::prefixThousandSpacing($this->totalGoalsConceded);
       } elseif ($column == "points") {
-        $prefixSpace = $this->prefixThousandSpacing($this->totalPoints);
+        $prefixSpace = Utility::prefixThousandSpacing($this->totalPoints);
       }
       return array($prefixSpace, $suffixSpace);
     }
  
+    // // use for columns with max value less than 1000
+    // public function prefixHundredSpacing($number) {
+    //   if ($number < 10) {
+    //     return 2;
+    //   } elseif ($number < 100) {
+    //     return 1;
+    //   } else {
+    //     return 0;
+    //   }
+    // }
+
+    // // use for columns with max value less than 10000
+    // public function prefixThousandSpacing($number) {
+    //   if ($number < 10) {
+    //     return 3;
+    //   } elseif ($number < 100) {
+    //     return 2;
+    //   } elseif ($number < 1000) {
+    //     return 1;
+    //   } else {
+    //     return 0;
+    //   }
+    // }
+  }
+
+  class Utility {
+    // Remove excess white spaces (more than 1) from a line
+    public function removeExcessWhite($line) {
+      return trim(preg_replace('/\s\s+/', ' ', $line));
+    }
+
+    // Pass in a line removed with excess white spaces to get name
+    public function getName($line) {
+      preg_match('/\b[A-Z][A-Za-z \'&]+/', $line, $nameMatch);
+      return trim($nameMatch[0]);
+    }
+
+    // Split a text line into an array
+    public function splitLineIntoArray($line) {
+      return explode(' ', $line);
+    }
+
+    // Remove hyphen from an array
+    public function removeHyphenFromArray($array) {
+      unset($array[array_search('-', $array)]);
+      // reindexes the array
+      $reindexArray = array_values($array);
+      return $reindexArray;
+    }
+
+    // Make new array without the name of club, just stat values
+    public function arrayWithoutName($array) {
+      $noNameArray = array();
+      foreach ($array as $each) {
+        if (preg_match('/[0-9]/', $each)) {
+          array_push($noNameArray, $each);
+        }
+      }
+      return $noNameArray;
+    }
+
     // use for columns with max value less than 1000
     public function prefixHundredSpacing($number) {
       if ($number < 10) {
@@ -120,45 +181,10 @@
       } else {
         return 0;
       }
-    }
-  }
-
-  class Utility {
-    // Remove excess white spaces (more than 1) from a line
-    public function removeExcessWhite($line) {
-      return trim(preg_replace('/\s\s+/', ' ', $line));
-    }
-
-    // Pass in a line removed with excess white spaces to get name
-    public function getName($line) {
-      preg_match('/\b[A-Z][A-Za-z \'&]+/', $line, $nameMatch);
-      return trim($nameMatch[0]);
-    }
-
-    public function splitLineIntoArray($line) {
-      return explode(' ', $line);
-    }
-
-    public function removeHyphenFromArray($array) {
-      unset($array[array_search('-', $array)]);
-      // reindexes the array
-      $reindexArray = array_values($array);
-      return $reindexArray;
-    }
-
-    // Make new array without the name of club, just stat values
-    public function arrayWithoutName($array) {
-      $noNameArray = array();
-      foreach ($array as $each) {
-        if (preg_match('/[0-9]/', $each)) {
-          array_push($noNameArray, $each);
-        }
-      }
-      return $noNameArray;
     } 
   }
 
-  class Test {
+  class UtilityTest {
     public function testRemoveExcessWhite() {
       $line = " 1. Everton                    104  4062  1652   998  1412  6373 - 5719  4302  ";
       $expectedLine = "1. Everton 104 4062 1652 998 1412 6373 - 5719 4302";
@@ -275,15 +301,15 @@
     }
 
     public function runTests() {
-      Test::testRemoveExcessWhite();
-      Test::testGetName();
-      Test::testSplitLineToArray();
-      Test::testRemoveHyphenFromArray();
-      Test::testArrayWithoutName();  
+      UtilityTest::testRemoveExcessWhite();
+      UtilityTest::testGetName();
+      UtilityTest::testSplitLineToArray();
+      UtilityTest::testRemoveHyphenFromArray();
+      UtilityTest::testArrayWithoutName();  
     }
   }
 
-  Test::runTests();
+  UtilityTest::runTests();
 
   $file = fopen("league_list.txt","r");
   $allClubsArray = array();

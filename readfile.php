@@ -551,8 +551,8 @@
 
   // Run Tests
   // Uncomment Lines below to run tests on classes
-  UtilityTest::runTests();
-  ClubTest::runTests();
+  // UtilityTest::runTests();
+  // ClubTest::runTests();
 
   Main::start();
 ?>

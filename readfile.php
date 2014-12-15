@@ -251,9 +251,9 @@
       $testArray = Club::turnArrayToHash($array);
 
       if ($testArray == $expectedArray) {
-        echo "turnArrayToHash Array expected and actual match" . "\r\n";
+        echo "testTurnArrayToHash Array expected and actual match" . "\r\n";
       } else {
-        echo "turnArrayToHash Array expected and actual DO NOT match" . "\r\n";
+        echo "testTurnArrayToHash Array expected and actual DO NOT match" . "\r\n";
       }
     }
 
@@ -264,9 +264,9 @@
       $testOutput = $club->displayLine();
 
       if ($testOutput == $expectedOutput) {
-        echo "displayLine Output expected and actual match" . "\r\n";
+        echo "testDisplayLine Output expected and actual match" . "\r\n";
       } else {
-        echo "displayLine Output expected and actual DO NOT match" . "\r\n";
+        echo "testDisplayLine Output expected and actual DO NOT match" . "\r\n";
       }
     }
 
@@ -288,15 +288,15 @@
       $testLine2 = Utility::removeExcessWhite($line2);
 
       if ($testLine == $expectedLine) {
-        echo "removeExcessWhite Lines match" . "\r\n";
+        echo "testRemoveExcessWhite Line expected and actual match" . "\r\n";
       } else {
-        echo "removeExcessWhite Lines do not match" . "\r\n";
+        echo "testRemoveExcessWhite Line expected and actual DO NOT match" . "\r\n";
       }
 
       if ($testLine2 == $expectedLine2) {
-        echo "removeExcessWhite Lines 2 match" . "\r\n";
+        echo "testRemoveExcessWhite Lines 2 match" . "\r\n";
       } else {
-        echo "removeExcessWhite Lines 2 do not match" . "\r\n";
+        echo "testRemoveExcessWhite Lines 2 do not match" . "\r\n";
       }
     }
 
@@ -311,9 +311,9 @@
       $testLine2 = Utility::getName($line2);
 
       if ($testLine == $expectedLine) {
-        echo "getName Line expected and actual match" . "\r\n";
+        echo "testGetName Line expected and actual match" . "\r\n";
       } else {
-        echo "getName Line expected and actual DO NOT match" . "\r\n";
+        echo "testGetName Line expected and actual DO NOT match" . "\r\n";
       }
 
       if ($testLine2 == $expectedLine2) {
@@ -537,22 +537,22 @@
     }
 
     public function runTests() {
-      // UtilityTest::testRemoveExcessWhite();
-      // UtilityTest::testGetName();
-      // UtilityTest::testSplitLineToArray();
-      // UtilityTest::testRemoveHyphenFromArray();
-      // UtilityTest::testArrayWithoutName();
-      // UtilityTest::testPrefixHundredSpacing();
-      // UtilityTest::testPrefixThousandSpacing();  
-      // UtilityTest::testWhitespacing();
-      // UtilityTest::testMakeLineReady();
+      UtilityTest::testRemoveExcessWhite();
+      UtilityTest::testGetName();
+      UtilityTest::testSplitLineToArray();
+      UtilityTest::testRemoveHyphenFromArray();
+      UtilityTest::testArrayWithoutName();
+      UtilityTest::testPrefixHundredSpacing();
+      UtilityTest::testPrefixThousandSpacing();  
+      UtilityTest::testWhitespacing();
+      UtilityTest::testMakeLineReady();
     }
   }
 
   // Run Tests
   // Uncomment Lines below to run tests on classes
-  // UtilityTest::runTests();
-  // ClubTest::runTests();
+  UtilityTest::runTests();
+  ClubTest::runTests();
 
   Main::start();
 ?>
